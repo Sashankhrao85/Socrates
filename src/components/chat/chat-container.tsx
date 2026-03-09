@@ -17,6 +17,7 @@ export function ChatContainer() {
     sendMessage,
     stopStreaming,
     newSession,
+    setDifficulty,
   } = useChat();
   const speech = useSpeech();
   const { getModalityPreference } = useAnalytics();
@@ -29,7 +30,7 @@ export function ChatContainer() {
 
   return (
     <div className="flex flex-col h-screen">
-      <SessionHeader session={session} onNewSession={newSession} />
+      <SessionHeader session={session} onNewSession={newSession} onSetDifficulty={setDifficulty} />
       <MessageList
         messages={session.messages}
         speech={speech}

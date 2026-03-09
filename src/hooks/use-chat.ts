@@ -284,6 +284,15 @@ export function useChat() {
     [session, generateImage]
   );
 
+  const setDifficulty = useCallback((level: number) => {
+    const clamped = Math.max(1, Math.min(5, level));
+    setSession((prev) => ({
+      ...prev,
+      currentDifficulty: clamped,
+      lastActiveAt: Date.now(),
+    }));
+  }, []);
+
   const stopStreaming = useCallback(() => {
     abortRef.current?.abort();
   }, []);
@@ -308,5 +317,6 @@ export function useChat() {
     sendMessage,
     stopStreaming,
     newSession,
+    setDifficulty,
   };
 }
