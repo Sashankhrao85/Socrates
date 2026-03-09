@@ -2,11 +2,16 @@ import Anthropic from "@anthropic-ai/sdk";
 import { buildSocraticSystemPrompt } from "@/lib/socratic-prompt";
 import type { ChatRequest } from "@/lib/types";
 
-const client = new Anthropic({
-  apiKey: process.env.ANTHROPIC_API_KEY!,
-});
-
 export async function POST(request: Request) {
+  const apiKey = process.env.ANTHROPIC_API_KEY;
+  if (!apiKey || apiKey === "your-anthropic-api-key-here") {
+    return Response.json(
+      { error: "Anthropic API key not configured. Please set ANTHROPIC_API_KEY." },
+      { status: 501 }
+    );
+  }
+
+  const client = new Anthropic({ apiKey });
   const body: ChatRequest = await request.json();
   const systemPrompt = buildSocraticSystemPrompt(body.sessionContext);
 

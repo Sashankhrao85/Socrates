@@ -1,11 +1,16 @@
 import OpenAI from "openai";
 import type { ImageRequest, ImageResponse } from "@/lib/types";
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY!,
-});
-
 export async function POST(request: Request) {
+  const apiKey = process.env.OPENAI_API_KEY;
+  if (!apiKey || apiKey === "your-openai-api-key-here") {
+    return Response.json(
+      { error: "OpenAI API key not configured. Image generation is disabled." },
+      { status: 501 }
+    );
+  }
+
+  const openai = new OpenAI({ apiKey });
   const body: ImageRequest = await request.json();
 
   try {
