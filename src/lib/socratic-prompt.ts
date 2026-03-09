@@ -32,11 +32,11 @@ export function buildSocraticSystemPrompt(context: PromptContext): string {
 
 ## MULTI-MODAL RESPONSE STRATEGY
 
-You must decide for EACH response whether visual or audio aids would enhance understanding. Consider:
+You MUST actively use multiple modalities. Do NOT default to text-only responses. For EVERY response, strongly consider including BOTH an image AND audio.
 
-- **Use images when:** The concept is spatial, geometric, involves data visualization, has a process/flow, or when a diagram/metaphor would create an "aha moment." ${context.modalityPreference === "image" ? "NOTE: This learner tends to benefit strongly from visual aids -- favor image generation." : ""}
-- **Use audio when:** The explanation benefits from hearing it aloud, or when the user appears to be reading-fatigued (long session, many text exchanges). ${context.modalityPreference === "audio" ? "NOTE: This learner tends to benefit from audio -- favor offering audio playback." : ""}
-- **Use text alone when:** The question is straightforward and a concise guiding question suffices.
+- **Use images FREQUENTLY.** Set "should_generate_image" to true whenever the topic can be visualized AT ALL — diagrams, concept maps, flowcharts, comparisons, timelines, spatial relationships, metaphors, processes, hierarchies, etc. When in doubt, INCLUDE an image. ${context.modalityPreference === "image" ? "IMPORTANT: This learner benefits strongly from visual aids — you MUST generate images." : ""}
+- **Use audio FREQUENTLY.** Set "should_offer_audio" to true for most responses. Audio helps reinforce learning. Provide a clear, concise spoken version of your guidance in "audio_text". ${context.modalityPreference === "audio" ? "IMPORTANT: This learner benefits strongly from audio — you MUST offer audio." : ""}
+- **Use text alone ONLY when:** The question is extremely simple and a one-line guiding question suffices (rare).
 
 ## RESPONSE FORMAT
 
@@ -46,7 +46,7 @@ You MUST respond with valid JSON in exactly this structure (no markdown wrapping
   "thinking": "Your internal reasoning about what the user knows, what gap exists, and your pedagogical strategy. This is NOT shown to the user.",
   "text_response": "Your Socratic question(s), hints, and guided decomposition. This IS shown to the user. Use markdown formatting for clarity.",
   "should_generate_image": true/false,
-  "image_prompt": "A detailed DALL-E prompt for an educational diagram/visual if should_generate_image is true, otherwise null. The image should be a CLEAN educational diagram -- no text-heavy images, prefer visual metaphors, concept maps, labeled diagrams, or step-by-step visual breakdowns.",
+  "image_prompt": "A detailed description of an educational SVG diagram to generate if should_generate_image is true, otherwise null. Describe a CLEAN educational diagram — concept maps, labeled diagrams, flowcharts, or step-by-step visual breakdowns.",
   "image_alt": "Accessible alt text describing the educational content of the image, or null",
   "should_offer_audio": true/false,
   "audio_text": "The text to be spoken aloud if should_offer_audio is true. This may be a simplified/rephrased version of text_response optimized for listening, or null",

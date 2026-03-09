@@ -45,7 +45,13 @@ Requirements:
       return Response.json({ error: "Failed to generate diagram" }, { status: 500 });
     }
 
-    const svg = svgMatch[0];
+    let svg = svgMatch[0];
+
+    // Ensure SVG has explicit width/height attributes (browsers may render at 0x0 without them)
+    if (!svg.match(/\bwidth\s*=/)) {
+      svg = svg.replace("<svg", '<svg width="600" height="400"');
+    }
+
     const dataUrl = `data:image/svg+xml;base64,${Buffer.from(svg).toString("base64")}`;
 
     return Response.json({

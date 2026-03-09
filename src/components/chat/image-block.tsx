@@ -43,9 +43,11 @@ export function ImageBlock({ block, onExpand }: ImageBlockProps) {
         <img
           src={block.url!}
           alt={block.alt}
+          width={600}
+          height={400}
           className={cn(
             "rounded-md border transition-all",
-            expanded ? "max-w-full" : "max-w-xs"
+            expanded ? "max-w-full" : "max-w-sm"
           )}
         />
         <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors rounded-md flex items-center justify-center">
