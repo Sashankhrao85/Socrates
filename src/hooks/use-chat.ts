@@ -37,11 +37,7 @@ export function useChat() {
         const res = await fetch("/api/image", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            prompt,
-            style: "natural",
-            size: "1024x1024",
-          }),
+          body: JSON.stringify({ prompt }),
         });
         const data = await res.json();
 
